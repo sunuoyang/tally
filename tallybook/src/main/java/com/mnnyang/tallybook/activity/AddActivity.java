@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,14 +15,19 @@ import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.base.BaseActivity;
 import com.mnnyang.tallybook.adapter.FragmentAdapter;
 import com.mnnyang.tallybook.fragment.TypeSelectFragment;
+import com.mnnyang.tallybook.helper.DateCheckHelper;
 import com.mnnyang.tallybook.helper.MoneyEditHelper;
 import com.mnnyang.tallybook.utils.ScreenUtils;
+import com.mnnyang.tallybook.utils.SnackbarUtils;
+import com.mnnyang.tallybook.utils.TimeUtils;
 import com.mnnyang.tallybook.utils.building.BindLayout;
 import com.mnnyang.tallybook.utils.building.BindView;
 import com.mnnyang.tallybook.widget.NumberInputView;
 
+import java.util.Calendar;
+
 @BindLayout(R.layout.activity_add)
-public class AddActivity extends BaseActivity implements View.OnClickListener, NumberInputView.KeyboardListener {
+public class AddActivity extends BaseActivity implements View.OnClickListener, NumberInputView.KeyboardListener, DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -43,7 +50,10 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
     //金额输入检测助手
     private MoneyEditHelper moneyHelper;
     private DatePickerDialog mDatePickerDialog;
-
+    private int entryYear;
+    private int entryMonth;
+    private int entryDay;
+    private int entryDate;
 
     @Override
     protected void initWindow() {
@@ -60,7 +70,14 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
     }
 
     private void initDatePicker() {
-        mDatePickerDialog = new DatePickerDialog(this, null, 2016, 1, 1);
+        Calendar calendar = Calendar.getInstance();
+        entryYear = calendar.get(Calendar.YEAR);
+        entryMonth = calendar.get(Calendar.MONTH);
+        entryDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String date = TimeUtils.stampToDate(calendar.getTimeInMillis(), "yyyyMMdd");
+        entryDate = Integer.decode(date);
+
+        mDatePickerDialog = new DatePickerDialog(this, this, entryYear, entryMonth, entryDay);
     }
 
     private void initHelper() {
@@ -98,6 +115,7 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         etMoneyInput.setOnClickListener(this);
         numberInputView.setKeyboardListener(this);
         tvSelectTime.setOnClickListener(this);
+
     }
 
     @Override
@@ -118,6 +136,42 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         mDatePickerDialog.show();
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month++;
+        System.out.println("y" + year + "m" + month + "d" + dayOfMonth);
+
+        new DateCheckHelper(year, month, dayOfMonth, new DateCheckHelper.Listener() {
+            @Override
+            public void succeed(int date, int year, int month, int dayOfMonth, String name) {
+                selectTimeSucceed(date, year, month, dayOfMonth, name);
+            }
+
+            @Override
+            public void fail() {
+                selectTimeFail();
+            }
+        }).start();
+    }
+
+    private void selectTimeSucceed(int date, int year, int month, int dayOfMonth, String name) {
+        entryYear = year;
+        entryMonth = month;
+        entryDay = dayOfMonth;
+        entryDate = date;
+
+        if (!TextUtils.isEmpty(name)) {
+            tvSelectTime.setText(name);
+            return;
+        }
+        tvSelectTime.setText(year + "-" + month + "-" + dayOfMonth);
+    }
+
+    private void selectTimeFail() {
+        SnackbarUtils.notice(tvSelectTime, "不能选择未来的时间!");
+    }
+
+    //输入金额回调
     @Override
     public void onNumber(String number) {
         moneyHelper.onAddNumber(number);
@@ -151,4 +205,15 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
     }
 
 
+    public float getShowMoney() {
+        String string = etMoneyInput.getText().toString();
+        if (TextUtils.isEmpty(string)) {
+            return 0f;
+        }
+        return Float.parseFloat(string);
+    }
+
+    public int getSelectDate() {
+        return entryDate;
+    }
 }

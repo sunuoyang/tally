@@ -1,10 +1,11 @@
 package com.mnnyang.tallybook.model;
 
 /**
+ * 账单基本类型
  * Created by mnnyang on 17-5-17.
  */
 
-public class EntryType {
+public class MinorType {
     private String typeName;
     private int typeIconId;
     private int tintColor = -1;
@@ -13,7 +14,7 @@ public class EntryType {
         return tintColor;
     }
 
-    public EntryType setTintColor(int tintColor) {
+    public MinorType setTintColor(int tintColor) {
         this.tintColor = tintColor;
         return this;
     }
@@ -22,7 +23,7 @@ public class EntryType {
         return typeName;
     }
 
-    public EntryType setTypeName(String typeName) {
+    public MinorType setTypeName(String typeName) {
         this.typeName = typeName;
         return this;
     }
@@ -31,7 +32,7 @@ public class EntryType {
         return typeIconId;
     }
 
-    public EntryType setTypeIconId(int typeIconId) {
+    public MinorType setTypeIconId(int typeIconId) {
         this.typeIconId = typeIconId;
         return this;
     }

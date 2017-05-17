@@ -6,7 +6,7 @@ import android.widget.EditText;
 import com.mnnyang.tallybook.utils.LogUtils;
 
 /**
- * <p>钱输入助手</p>
+ * <p>金额输入助手</p>
  * <p>规则:</p>
  * 1. 只能有一个小数点 <
  * 2. 小数位只能有1位 444.4 433.2
@@ -87,7 +87,7 @@ public class MoneyEditHelper {
             moneyFloat = Float.parseFloat(str);
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtils.e(this, "string to float error !");
+            LogUtils.e(this, "string to float fail !");
         }
         return moneyFloat;
     }

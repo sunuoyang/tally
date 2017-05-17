@@ -9,16 +9,20 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.AddActivity;
 import com.mnnyang.tallybook.adapter.RecyclerBaseAdapter;
+import com.mnnyang.tallybook.adapter.TypeAdapter;
 import com.mnnyang.tallybook.app.app;
+import com.mnnyang.tallybook.db.EntryHelpter;
 import com.mnnyang.tallybook.fragment.base.BaseFragment;
-import com.mnnyang.tallybook.model.EntryType;
+import com.mnnyang.tallybook.helper.SpacesItemDecoration;
+import com.mnnyang.tallybook.model.Bill;
+import com.mnnyang.tallybook.model.MinorType;
 import com.mnnyang.tallybook.utils.LogUtils;
+import com.mnnyang.tallybook.utils.ScreenUtils;
+import com.mnnyang.tallybook.utils.SnackbarUtils;
 import com.mnnyang.tallybook.utils.building.BindView;
 import com.mnnyang.tallybook.utils.building.Binder;
 
@@ -28,21 +32,23 @@ import java.util.ArrayList;
  * Created by mnnyang on 17-5-17.
  */
 
-public class TypeSelectFragment extends BaseFragment implements View.OnTouchListener {
+public class TypeSelectFragment extends BaseFragment implements View.OnTouchListener, RecyclerBaseAdapter.ItemClickListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    private int spanCount = 5;
+    private int spanCount = 4;
     private float startMoveY;
     private boolean isMoving;
     private GridLayoutManager layoutManager;
+    private TypeAdapter adapter;
+    private ArrayList<MinorType> typeData;
 
     public TypeSelectFragment initType(String type) {
-        this.type = type;
+        this.mainType = type;
         return this;
     }
 
-    private String type;
+    private String mainType;
 
 
     @Override
@@ -63,65 +69,103 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
     }
 
     private void initRecyclerView() {
-        ArrayList<EntryType> entryTypes = getTypeData();
+        typeData = getTypeData();
 
         layoutManager = new GridLayoutManager(getContext(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new RecyclerBaseAdapter<EntryType>(R.layout.item_type_select, entryTypes) {
-            @Override
-            protected void convert(ViewHolder holder, int position) {
-                TextView tvTypeName = holder.getView(R.id.tv_type_name);
-                ImageView ivTypeIcon = holder.getView(R.id.iv_type_icon);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(ScreenUtils.dp2px(8));
+        recyclerView.addItemDecoration(decoration);
+        adapter = new TypeAdapter(R.layout.item_type_select, typeData);
+        recyclerView.setAdapter(adapter);
 
-                EntryType entryType = getData().get(position);
-                int tintColor = entryType.getTintColor();
-                tvTypeName.setText(entryType.getTypeName());
-                ivTypeIcon.setImageResource(getData().get(position).getTypeIconId());
-
-                if (tintColor != -1) {
-                    tvTypeName.setTextColor(tintColor);
-                    ivTypeIcon.setColorFilter(tintColor);
-                }
-            }
-        });
         recyclerView.setOnTouchListener(this);
+        adapter.setItemClickListener(this);
     }
 
     /**
      * 返回账单的类型
      */
-    private ArrayList<EntryType> getTypeData() {
-        if (type.equals(getString(R.string.income))) {
+    private ArrayList<MinorType> getTypeData() {
+        if (mainType.equals(getString(R.string.income))) {
             return initIncomeTypeData();
-        } else if (type.equals(getString(R.string.expend))) {
+        } else if (mainType.equals(getString(R.string.expend))) {
             return initExpendTypeData();
         } else {
-            LogUtils.e(this, "not find type!");
-            return null;
+            LogUtils.e(this, "not find mainType!");
+            throw new RuntimeException("not find mainType!");
         }
     }
 
     //TODO 完善类型
     @NonNull
-    private ArrayList<EntryType> initExpendTypeData() {
+    private ArrayList<MinorType> initExpendTypeData() {
         return initIncomeTypeData();
     }
 
     //TODO 完善类型
     @NonNull
-    private ArrayList<EntryType> initIncomeTypeData() {
-        ArrayList<EntryType> entryTypes = new ArrayList<>();
-        entryTypes.add(new EntryType().setTypeIconId(R.drawable.ic_shop).setTypeName("购物")
+    private ArrayList<MinorType> initIncomeTypeData() {
+        ArrayList<MinorType> minorTypes = new ArrayList<>();
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_shop).setTypeName("购物")
                 .setTintColor(app.context.getResources().getColor(R.color.yellow)));
-        entryTypes.add(new EntryType().setTypeIconId(R.drawable.ic_eat).setTypeName("餐饮")
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_eat).setTypeName("餐饮")
                 .setTintColor(app.context.getResources().getColor(R.color.blue)));
-        entryTypes.add(new EntryType().setTypeIconId(R.drawable.ic_game).setTypeName("娱乐")
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_game).setTypeName("娱乐")
                 .setTintColor(app.context.getResources().getColor(R.color.pink)));
-        entryTypes.add(new EntryType().setTypeIconId(R.drawable.ic_travel).setTypeName("旅游")
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_travel).setTypeName("旅游")
                 .setTintColor(app.context.getResources().getColor(R.color.green)));
-        entryTypes.add(new EntryType().setTypeIconId(R.drawable.ic_medical).setTypeName("医疗")
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_medical).setTypeName("医疗")
                 .setTintColor(app.context.getResources().getColor(R.color.teal)));
-        return entryTypes;
+
+
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_eat).setTypeName("餐饮")
+                .setTintColor(app.context.getResources().getColor(R.color.blue)));
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_game).setTypeName("娱乐")
+                .setTintColor(app.context.getResources().getColor(R.color.pink)));
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_travel).setTypeName("旅游")
+                .setTintColor(app.context.getResources().getColor(R.color.green)));
+        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_medical).setTypeName("医疗")
+                .setTintColor(app.context.getResources().getColor(R.color.teal)));
+        return minorTypes;
+    }
+
+    //recyclerview item click
+    @Override
+    public void onItemClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
+        //TODO 选择完毕 添加数据 返回主页
+        float money = ((AddActivity) getActivity()).getShowMoney();
+        int date = ((AddActivity) getActivity()).getSelectDate();
+        if (money == 0f) {
+            SnackbarUtils.notice(view, "先设置金额吧!");
+            return;
+        }
+        String notes = "";
+
+        addBill(typeData.get(holder.getAdapterPosition()), money, date, notes);
+        System.out.println(money);
+    }
+
+    /**
+     * 添加一条账单
+     */
+    private void addBill(MinorType type, float money, int date, String notes) {
+        long addTime = System.currentTimeMillis();
+        Bill bill = new Bill()
+                .setTitle(type.getTypeName())
+                .setMoney(money)
+                .setDate(date)
+                .setAddTime(addTime)
+                .setMainType(mainType)
+                .setMinorType(type.getTypeName())
+                .setNotes(notes);
+
+        EntryHelpter helpter = new EntryHelpter();
+        helpter.add(bill);
+    }
+
+    @Override
+    public void onItemLongClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
+        //TODO 弹出选择窗口 选择则添加数据 返回主页
     }
 
     //recyclerview onTouch
@@ -156,4 +200,6 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
     private void showNumberInputView() {
         ((AddActivity) getActivity()).showNumberInputView();
     }
+
+
 }

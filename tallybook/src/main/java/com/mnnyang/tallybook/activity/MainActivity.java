@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.base.BaseActivity;
-import com.mnnyang.tallybook.db.EntryDatabaseHelper;
+import com.mnnyang.tallybook.db.BillDatabaseHelper;
 import com.mnnyang.tallybook.utils.building.BindLayout;
 import com.mnnyang.tallybook.utils.building.BindView;
 
@@ -52,8 +52,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        EntryDatabaseHelper entryDatabaseHelper = new EntryDatabaseHelper();
-        SQLiteDatabase database = entryDatabaseHelper.getWritableDatabase();
+        BillDatabaseHelper billDatabaseHelper = new BillDatabaseHelper();
+        SQLiteDatabase database = billDatabaseHelper.getWritableDatabase();
     }
 
     @Override

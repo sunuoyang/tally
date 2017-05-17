@@ -178,8 +178,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // There was an fail; don't attempt login and focus the first
+            // form field with an fail.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
@@ -229,7 +229,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
+            // The ViewPropertyAnimator APIs are not available, so simply notice
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -271,7 +271,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        //Create adapter to tell the AutoCompleteTextView what to notice in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
