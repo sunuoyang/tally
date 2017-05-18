@@ -14,4 +14,7 @@
     <color name="yellow">#FFEB3B</color>
     <color name="brown">#795548</color>
     <color name="grey">#607D8B</color>
+    <color name="grey_df">#dfdfdf</color>
+
+    <color name="color_edit_text_bg">@color/colorPrimary</color>
 </resources>

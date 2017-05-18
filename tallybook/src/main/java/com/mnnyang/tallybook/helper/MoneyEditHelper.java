@@ -10,7 +10,7 @@ import com.mnnyang.tallybook.utils.LogUtils;
  * <p>规则:</p>
  * 1. 只能有一个小数点 <
  * 2. 小数位只能有1位 444.4 433.2
- * 3. 最大金额为9999999999 长度为10 <
+ * 3. 最大金额为999999999 长度为maxLength <
  * 4. 一开始不能输入0后输入其他数字 比如02 04 00 <
  * 5. 一开始不能输入小数点...<
  * 6.
@@ -21,15 +21,16 @@ import com.mnnyang.tallybook.utils.LogUtils;
 public class MoneyEditHelper {
 
     private EditText editText;
-    private String moneyText="";
+    private String moneyText = "";
+    private int maxLength = 9;
 
     public MoneyEditHelper(EditText editText) {
         this.editText = editText;
     }
 
     public void onAddNumber(String number) {
-        //最大长度不能大于10
-        if (moneyText.length() >= 10) {
+        //最大长度不能大于maxLength
+        if (moneyText.length() >= maxLength) {
             return;
         }
 

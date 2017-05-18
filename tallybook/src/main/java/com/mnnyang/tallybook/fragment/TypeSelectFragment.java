@@ -50,7 +50,6 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
 
     private String mainType;
 
-
     @Override
     protected View initView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(app.context).inflate(R.layout.fragment_type_select, null);

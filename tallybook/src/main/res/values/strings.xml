@@ -15,7 +15,7 @@
         completions."
     </string>
     <string name="title_activity_add">AddActivity</string>
-    <string name="text_please_enter_the_amount">请输入金额</string>
+    <string name="text_please_enter_the_amount">输入金额</string>
     <string name="income">收入</string>
     <string name="expend">支出</string>
 </resources>
