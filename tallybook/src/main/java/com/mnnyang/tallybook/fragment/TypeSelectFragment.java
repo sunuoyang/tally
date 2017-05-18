@@ -1,6 +1,9 @@
 package com.mnnyang.tallybook.fragment;
 
+import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,9 +20,11 @@ import com.mnnyang.tallybook.adapter.TypeAdapter;
 import com.mnnyang.tallybook.app.app;
 import com.mnnyang.tallybook.db.EntryHelpter;
 import com.mnnyang.tallybook.fragment.base.BaseFragment;
+import com.mnnyang.tallybook.helper.ListDialogHelper;
 import com.mnnyang.tallybook.helper.SpacesItemDecoration;
 import com.mnnyang.tallybook.model.Bill;
 import com.mnnyang.tallybook.model.MinorType;
+import com.mnnyang.tallybook.utils.ArrayUtils;
 import com.mnnyang.tallybook.utils.LogUtils;
 import com.mnnyang.tallybook.utils.ScreenUtils;
 import com.mnnyang.tallybook.utils.SnackbarUtils;
@@ -95,36 +100,34 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
         }
     }
 
-    //TODO 完善类型
     @NonNull
     private ArrayList<MinorType> initExpendTypeData() {
-        return initIncomeTypeData();
+        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type_income,
+                R.array.minor_type_drawable_ids_income, R.array.minor_type_tint_income);
+        return minorTypes;
     }
 
-    //TODO 完善类型
     @NonNull
     private ArrayList<MinorType> initIncomeTypeData() {
+        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type,
+                R.array.minor_type_drawable_ids, R.array.minor_type_tint);
+        return minorTypes;
+    }
+
+    @NonNull
+    private ArrayList<MinorType> fillTypeData(@ArrayRes int typeTitles, @ArrayRes int typeDrawables, @ArrayRes int typeTint) {
         ArrayList<MinorType> minorTypes = new ArrayList<>();
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_shop).setTypeName("购物")
-                .setTintColor(app.context.getResources().getColor(R.color.yellow)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_eat).setTypeName("餐饮")
-                .setTintColor(app.context.getResources().getColor(R.color.blue)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_game).setTypeName("娱乐")
-                .setTintColor(app.context.getResources().getColor(R.color.pink)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_travel).setTypeName("旅游")
-                .setTintColor(app.context.getResources().getColor(R.color.green)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_medical).setTypeName("医疗")
-                .setTintColor(app.context.getResources().getColor(R.color.teal)));
 
+        String monorTypeTitle[] = ArrayUtils.getStringArray(typeTitles);
+        int iconsId[] = ArrayUtils.getIds(typeDrawables);
+        int tintColors[] = ArrayUtils.getIntArray(typeTint);
 
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_eat).setTypeName("餐饮")
-                .setTintColor(app.context.getResources().getColor(R.color.blue)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_game).setTypeName("娱乐")
-                .setTintColor(app.context.getResources().getColor(R.color.pink)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_travel).setTypeName("旅游")
-                .setTintColor(app.context.getResources().getColor(R.color.green)));
-        minorTypes.add(new MinorType().setTypeIconId(R.drawable.ic_medical).setTypeName("医疗")
-                .setTintColor(app.context.getResources().getColor(R.color.teal)));
+        for (int i = 0; i < monorTypeTitle.length; i++) {
+            minorTypes.add(new MinorType()
+                    .setTypeName(monorTypeTitle[i])
+                    .setTypeIconId(iconsId[i])
+                    .setTintColor(tintColors[i]));
+        }
         return minorTypes;
     }
 
@@ -133,15 +136,40 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
     public void onItemClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
         //TODO 选择完毕 添加数据 返回主页
         float money = ((AddActivity) getActivity()).getShowMoney();
-        int date = ((AddActivity) getActivity()).getSelectDate();
         if (money == 0f) {
-            SnackbarUtils.notice(view, "先设置金额吧!");
+            SnackbarUtils.notice(view, getString(R.string.set_the_money_value));
             return;
         }
-        String notes = "";
 
-        addBill(typeData.get(holder.getAdapterPosition()), money, date, notes);
+        int date = ((AddActivity) getActivity()).getSelectDate();
+        MinorType minorType = typeData.get(holder.getAdapterPosition());
+        String notes = "";
+        addBill(minorType, money, date, notes);
         System.out.println(money);
+    }
+
+    @Override
+    public void onItemLongClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
+        //TODO 弹出选择窗口 选择则添加数据 返回主页
+        showTypeDetailDialog();
+    }
+
+    /**
+     * 详细类型弹窗
+     */
+    private void showTypeDetailDialog() {
+
+        ArrayList<ListDialogHelper.Item> items = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            items.add(new ListDialogHelper.Item().setBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)).setTitle("nihoa"));
+        }
+        new ListDialogHelper().showListDialog(getContext(), items, new ListDialogHelper.ItemClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                System.out.println(item);
+            }
+        });
     }
 
     /**
@@ -160,11 +188,6 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
 
         EntryHelpter helpter = new EntryHelpter();
         helpter.add(bill);
-    }
-
-    @Override
-    public void onItemLongClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
-        //TODO 弹出选择窗口 选择则添加数据 返回主页
     }
 
     //recyclerview onTouch

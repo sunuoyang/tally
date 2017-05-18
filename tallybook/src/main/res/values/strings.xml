@@ -18,4 +18,5 @@
     <string name="text_please_enter_the_amount">输入金额</string>
     <string name="income">收入</string>
     <string name="expend">支出</string>
+    <string name="set_the_money_value">先设置金额吧!</string>
 </resources>

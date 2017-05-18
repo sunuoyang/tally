@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="minor_type">
+        <item>购物</item>
+        <item>餐饮</item>
+        <item>娱乐</item>
+        <item>出行</item>
+        <item>烟酒</item>
+        <item>零食</item>
+        <item>借出</item>
+        <item>住房</item>
+        <item>旅游</item>
+        <item>通讯</item>
+        <item>医疗</item>
+        <item>美容</item>
+        <item>日用品</item>
+        <item>学习</item>
+        <item>人情</item>
+        <item>还债</item>
+        <item>数码</item>
+        <item>家居</item>
+    </array>
+
+    <string-array name="minor_type_drawable_ids">
+        <item>@drawable/ic_shop</item><!--购物-->
+        <item>@drawable/ic_eat</item><!--餐饮-->
+        <item>@drawable/ic_game</item><!--娱乐-->
+        <item>@drawable/ic_car</item><!--出行-->
+        <item>@drawable/ic_tob_wine</item><!--ic_tob_wine-->
+        <item>@drawable/ic_snack</item><!--ic_snack-->
+        <item>@drawable/ic_lend</item><!--借出-->
+        <item>@drawable/ic_housing</item><!--ic_housing-->
+        <item>@drawable/ic_travel</item><!--旅游-->
+        <item>@drawable/ic_comm</item><!--通讯-->
+        <item>@drawable/ic_medical</item><!--医疗-->
+        <item>@drawable/ic_beauty</item><!--beauty-->
+        <item>@drawable/ic_daily</item><!--daily-->
+        <item>@drawable/ic_study</item><!--学习-->
+        <item>@drawable/ic_feelings</item><!--人情-->
+        <item>@drawable/ic_debit</item><!--ic_debit-->
+        <item>@drawable/ic_digital</item><!--数码-->
+        <item>@drawable/ic_jiaju</item><!--ic_jiaju-->
+    </string-array>
+
+    <integer-array name="minor_type_tint">
+        <item>0xFFE91E63</item>
+        <item>0xFF9C27B0</item>
+        <item>0xFF03A9F4</item>
+        <item>0xFF009688</item>
+        <item>0xFF4CAF50</item>
+        <item>0xFFFFEB3B</item>
+        <item>0xFF9C27B0</item>
+        <item>0xFFE91E63</item>
+        <item>0xFF795548</item>
+        <item>0xFFE91E63</item>
+        <item>0xFF607D8B</item>
+        <item>0xFF795548</item>
+        <item>0xFFFFEB3B</item>
+        <item>0xFFE91E63</item>
+        <item>0xFFFFEB3B</item>
+        <item>0xFF03A9F4</item>
+        <item>0xFF03A9F4</item>
+        <item>0xFF9C27B0</item>
+    </integer-array>
+
+    <array name="minor_type_income">
+        <item>薪资</item>
+        <item>红包</item>
+        <item>奖金</item>
+        <item>兼职</item>
+        <item>借入</item>
+    </array>
+
+    <string-array name="minor_type_drawable_ids_income">
+        <item>@drawable/ic_salary</item>
+        <item>@drawable/ic_red_packet</item>
+        <item>@drawable/ic_bonus</item>
+        <item>@drawable/ic_part_time_jab</item>
+        <item>@drawable/ic_borrow</item>
+    </string-array>
+
+    <integer-array name="minor_type_tint_income">
+        <item>0xFF9C27B0</item>
+        <item>0xFFE91E63</item>
+        <item>0xFF03A9F4</item>
+        <item>0xFF4CAF50</item>
+        <item>0xFF009688</item>
+    </integer-array>
+</resources>
