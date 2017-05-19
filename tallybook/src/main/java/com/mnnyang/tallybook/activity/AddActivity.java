@@ -5,24 +5,27 @@ import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mnnyang.numberkeyboard.NumberInputView;
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.base.BaseActivity;
 import com.mnnyang.tallybook.adapter.FragmentAdapter;
 import com.mnnyang.tallybook.fragment.TypeSelectFragment;
 import com.mnnyang.tallybook.helper.DateCheckHelper;
+import com.mnnyang.tallybook.helper.EditDialogHelper;
 import com.mnnyang.tallybook.helper.MoneyEditHelper;
 import com.mnnyang.tallybook.utils.ScreenUtils;
 import com.mnnyang.tallybook.utils.SnackbarUtils;
 import com.mnnyang.tallybook.utils.TimeUtils;
 import com.mnnyang.tallybook.utils.building.BindLayout;
 import com.mnnyang.tallybook.utils.building.BindView;
-import com.mnnyang.tallybook.widget.NumberInputView;
 
 import java.util.Calendar;
 
@@ -50,6 +53,8 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
     //金额输入检测助手
     private MoneyEditHelper moneyHelper;
     private DatePickerDialog mDatePickerDialog;
+
+    private String entryNotes;
     private int entryYear;
     private int entryMonth;
     private int entryDay;
@@ -115,6 +120,7 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         etMoneyInput.setOnClickListener(this);
         numberInputView.setKeyboardListener(this);
         tvSelectTime.setOnClickListener(this);
+        llInputViewRoot.setOnClickListener(this);
 
     }
 
@@ -127,15 +133,57 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
             case R.id.tv_selsect_time:
                 selectTime();
                 break;
+            case R.id.ll_input_root:
+                showNumberInputView();
+                break;
             default:
                 break;
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_notes) {
+            showNotesDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 添加备注对话框
+     */
+    private void showNotesDialog() {
+        new EditDialogHelper().show(this, getString(R.string.notes), new EditDialogHelper.ButtonListener() {
+            @Override
+            public void onPositive(View editViewRoot, String content) {
+                entryNotes = content;
+                if (!TextUtils.isEmpty(entryNotes)) {
+                    notice(getString(R.string.notes_set_succeed));
+                }
+            }
+        });
+    }
+
+    /**
+     * 选择日期
+     */
     private void selectTime() {
         mDatePickerDialog.show();
     }
 
+    /**
+     * 日期控件回调
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month++;
@@ -154,6 +202,9 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         }).start();
     }
 
+    /**
+     * 选择日期正确
+     */
     private void selectTimeSucceed(int date, int year, int month, int dayOfMonth, String name) {
         entryYear = year;
         entryMonth = month;
@@ -167,8 +218,11 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         tvSelectTime.setText(year + "-" + month + "-" + dayOfMonth);
     }
 
+    /**
+     * 选择日期错误
+     */
     private void selectTimeFail() {
-        SnackbarUtils.notice(tvSelectTime, "不能选择未来的时间!");
+        notice("不能选择未来的时间!");
     }
 
     //输入金额回调
@@ -200,11 +254,22 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         if (isNumberInputViewHide) {
             return;
         }
-        llInputViewRoot.animate().translationY(llInputViewRoot.getHeight()).start();
+        llInputViewRoot.animate().translationY(llInputViewRoot.getHeight() - ScreenUtils.dp2px(48)).start();
         isNumberInputViewHide = true;
     }
 
+    /**
+     * 显示通知
+     *
+     * @param msg
+     */
+    public void notice(String msg) {
+        SnackbarUtils.notice(tvSelectTime, msg);
+    }
 
+    /**
+     * 获取输入的金额
+     */
     public float getShowMoney() {
         String string = etMoneyInput.getText().toString();
         if (TextUtils.isEmpty(string)) {
@@ -213,7 +278,19 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
         return Float.parseFloat(string);
     }
 
+    /**
+     * 获取选择的日期
+     */
     public int getSelectDate() {
         return entryDate;
     }
+
+    /**
+     * 获取设置的备注
+     */
+    public String getNotes() {
+        return entryNotes;
+    }
+
+
 }

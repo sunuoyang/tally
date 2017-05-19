@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 餐饮详情类型 -->
+    <array name="type_dining">
+        <item>早餐</item>
+        <item>午饭</item>
+        <item>晚饭</item>
+        <item>宵夜</item>
+        <item>自定义</item>
+    </array>
+
+    <!-- 餐饮详情类型图片 -->
+    <string-array name="type_dining_drawable_ids">
+        <item>@drawable/ic_breakfast</item>
+        <item>@drawable/ic_dining_normal</item>
+        <item>@drawable/ic_dining_normal</item>
+        <item>@drawable/ic_night_snack</item>
+        <item>@drawable/ic_custom</item>
+    </string-array>
+
+    <!-- 出行详情类型 -->
+    <array name="type_trip">
+        <item>轮渡</item>
+        <item>航班</item>
+        <item>公交</item>
+        <item>打车</item>
+        <item>加油</item>
+        <item>自定义</item>
+    </array>
+
+    <!-- 出行详情类型图片 -->
+    <string-array name="type_trip_drawable_ids">
+        <item>@drawable/ic_ferry</item>
+        <item>@drawable/ic_flight</item>
+        <item>@drawable/ic_bus</item>
+        <item>@drawable/ic_car</item>
+        <item>@drawable/ic_refuel</item>
+        <item>@drawable/ic_custom</item>
+    </string-array>
+
+    <!--支出总的类型-->
     <array name="minor_type">
+        <item>自定义</item>
         <item>购物</item>
         <item>餐饮</item>
         <item>娱乐</item>
@@ -22,6 +62,7 @@
     </array>
 
     <string-array name="minor_type_drawable_ids">
+        <item>@drawable/ic_custom</item><!--购物-->
         <item>@drawable/ic_shop</item><!--购物-->
         <item>@drawable/ic_eat</item><!--餐饮-->
         <item>@drawable/ic_game</item><!--娱乐-->
@@ -43,6 +84,7 @@
     </string-array>
 
     <integer-array name="minor_type_tint">
+        <item>0xFF707070</item>
         <item>0xFFE91E63</item>
         <item>0xFF9C27B0</item>
         <item>0xFF03A9F4</item>
@@ -69,6 +111,7 @@
         <item>奖金</item>
         <item>兼职</item>
         <item>借入</item>
+        <item>自定义</item>
     </array>
 
     <string-array name="minor_type_drawable_ids_income">
@@ -77,6 +120,12 @@
         <item>@drawable/ic_bonus</item>
         <item>@drawable/ic_part_time_jab</item>
         <item>@drawable/ic_borrow</item>
+        <item>@drawable/ic_custom</item>
+    </string-array>
+    <string-array name="array_main_title">
+        <item>首页</item>
+        <item>统计</item>
+        <item>个人</item>
     </string-array>
 
     <integer-array name="minor_type_tint_income">
@@ -85,5 +134,6 @@
         <item>0xFF03A9F4</item>
         <item>0xFF4CAF50</item>
         <item>0xFF009688</item>
+        <item>0xFF707070</item>
     </integer-array>
 </resources>

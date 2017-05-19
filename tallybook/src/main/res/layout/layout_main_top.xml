@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_16dp"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_16dp"
+    app:layout_collapseMode="pin"
+    tools:showIn="@layout/activity_main">
+    <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="预算"
+                android:textColor="@color/white90"
+                android:textSize="@dimen/margin_16dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="消费"
+                android:textColor="@color/white90"
+                android:textSize="@dimen/margin_16dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="收入"
+                android:textColor="@color/white90"
+                android:textSize="@dimen/margin_16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="￥4000"
+                android:textColor="@color/white90"
+                android:textSize="@dimen/text_size_20sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="886"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_32sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="￥6900"
+                android:textColor="@color/white90"
+                android:textSize="@dimen/text_size_20sp"/>
+        </LinearLayout>
+    -->
+    <!-- TODO 数数显示效果 -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:fontFamily="cursive"
+        android:text="已支出（元）"
+        android:textColor="@color/white_f1"
+        android:textSize="@dimen/text_size_14sp"/>
+
+    <TextView
+        android:id="@+id/tv_expend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_4dp"
+        android:fontFamily="monospace"
+        android:text="588.0"
+        android:textColor="@color/white_f1"
+        android:textSize="@dimen/text_size_45sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="收入：5980.0 "
+            android:textColor="@color/selector_budget_text_color"
+            android:textSize="@dimen/text_size_12sp"/>
+
+        <TextView
+            android:id="@+id/tv_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:clickable="true"
+            android:fontFamily="serif"
+            android:gravity="center_vertical"
+            android:text="预算：4000"
+            android:textColor="@color/selector_budget_text_color"
+            android:textSize="@dimen/text_size_12sp"/>
+
+        <TextView
+            android:id="@+id/tv_overspend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:clickable="true"
+            android:fontFamily="serif"
+            android:gravity="center_vertical"
+            android:text="超支：0.0"
+            android:textColor="@color/selector_budget_text_color"
+            android:textSize="@dimen/text_size_12sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

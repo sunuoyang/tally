@@ -6,6 +6,7 @@
     <color name="white">#ffffff</color>
 
     <color name="white_f1">#f9f9f9</color>
+    <color name="white90">#aaffffff</color>
 
     <color name="pink">#E91E63</color>
     <color name="purple">#9C27B0</color>
@@ -21,4 +22,5 @@
 
 
     <color name="color_edit_text_bg">@color/colorPrimary</color>
+    <color name="black_33">#33000000</color>
 </resources>

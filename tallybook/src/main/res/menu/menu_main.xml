@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
@@ -8,10 +11,21 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_set"
-        android:icon="@drawable/ic_search_white_24dp"
-        android:title="设置"
-        app:showAsAction="never"/>
+        android:id="@+id/action_stat"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="搜索"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/action_personal"
+        android:icon="@drawable/ic_perm_identity_white_24dp"
+        android:title="搜索"
+        app:showAsAction="always"/>
+
+
+
+
 
 
 </menu>

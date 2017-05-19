@@ -13,6 +13,7 @@ import com.mnnyang.tallybook.app.app;
 public class BillDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String bills = "bills";
+    public static final String budget = "budget";
 
     public static final String title = "title";
     public static final String money = "money";
@@ -21,8 +22,12 @@ public class BillDatabaseHelper extends SQLiteOpenHelper {
     public static final String date = "date";
     public static final String addTime = "addTime";
     public static final String notes = "notes";
+
+    public static final String value = "value";
+    public static final String yearMonth = "yearMonth";
+
     /**
-     * 建表语句
+     * 账单建表语句
      */
     private String CREATE_ENTRY_TABLE = "CREATE TABLE " + bills + " (" +
             "_id integer primary key autoincrement, " +
@@ -34,6 +39,15 @@ public class BillDatabaseHelper extends SQLiteOpenHelper {
             addTime + " integer, " +
             notes + " text)";
 
+    /**
+     * 预算表建表语句
+     */
+    private String CREATE_BUDGET_TABLE = "CREATE TABLE " + budget + " (" +
+            "_id integer primary key autoincrement, " +
+            value + " real," +
+            yearMonth + " integer)";
+
+
     public BillDatabaseHelper() {
         super(app.context, Contents.NAME_DB_ENTRY, null, 1);
     }
@@ -41,6 +55,7 @@ public class BillDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ENTRY_TABLE);
+        db.execSQL(CREATE_BUDGET_TABLE);
     }
 
     @Override

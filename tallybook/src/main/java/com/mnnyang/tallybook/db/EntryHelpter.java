@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.mnnyang.tallybook.model.Bill;
+import com.mnnyang.tallybook.model.Budget;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,6 @@ import java.util.ArrayList;
  */
 
 public class EntryHelpter {
-    private SQLiteDatabase database;
 
     public EntryHelpter() {
     }
@@ -24,11 +24,11 @@ public class EntryHelpter {
      */
     public ArrayList<Bill> queryAll() {
         ArrayList<Bill> billList = new ArrayList<>();
-        database = openDb();
+        SQLiteDatabase database = openDb();
         Cursor cursor = database.query(BillDatabaseHelper.bills, null, null, null, null, null,
-                "order by " + BillDatabaseHelper.date + " desc");
+                BillDatabaseHelper.date + " desc");
 
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex(BillDatabaseHelper.title));
             String mainType = cursor.getString(cursor.getColumnIndex(BillDatabaseHelper.mainType));
             String minorType = cursor.getString(cursor.getColumnIndex(BillDatabaseHelper.minorType));
@@ -48,6 +48,8 @@ public class EntryHelpter {
                     .setNotes(notes);
 
             billList.add(bill);
+
+            System.out.println(title);
         }
 
         cursor.close();
@@ -56,10 +58,33 @@ public class EntryHelpter {
     }
 
     /**
+     * 查询预算
+     */
+    public Budget queryBudget(int yearMonth) {
+        Budget budget = null;
+
+        SQLiteDatabase database = openDb();
+        Cursor cursor = database.query(BillDatabaseHelper.bills,
+                new String[]{BillDatabaseHelper.value},
+                BillDatabaseHelper.yearMonth + " = ?",
+                new String[]{yearMonth + ""},
+                null, null, null);
+        while (cursor.moveToNext()) {
+            int value = cursor.getInt(cursor.getColumnIndex(BillDatabaseHelper.value));
+            budget = new Budget();
+            budget.setValue(value);
+            budget.setYearMonth(yearMonth);
+        }
+        cursor.close();
+        closeDb(database);
+        return budget;
+    }
+
+    /**
      * 添加
      */
-    public boolean add(Bill bill) {
-        database = openDb();
+    public void add(Bill bill) {
+        SQLiteDatabase database = openDb();
 
         ContentValues values = new ContentValues();
         values.put(BillDatabaseHelper.title, bill.getTitle());
@@ -72,14 +97,26 @@ public class EntryHelpter {
 
         database.insert(BillDatabaseHelper.bills, null, values);
         closeDb(database);
-        return false;
+    }
+
+    /**
+     * 添加预算
+     */
+    public void addBudget(Budget budget) {
+        ContentValues values = new ContentValues();
+        values.put(BillDatabaseHelper.value, budget.getValue());
+        values.put(BillDatabaseHelper.yearMonth, budget.getYearMonth());
+
+        SQLiteDatabase database = openDb();
+        database.insert(BillDatabaseHelper.budget, null, values);
+        closeDb(database);
     }
 
     /**
      * 删除
      */
     public boolean delete(Bill bill) {
-        database = openDb();
+        SQLiteDatabase database = openDb();
         database.delete(BillDatabaseHelper.bills, "addTime = ?",
                 new String[]{bill.getAddTime() + ""});
 
@@ -90,8 +127,8 @@ public class EntryHelpter {
     /**
      * 更新
      */
-    public boolean update(Bill bill) {
-        database = openDb();
+    public void update(Bill bill) {
+        SQLiteDatabase database = openDb();
         ContentValues values = new ContentValues();
         values.put(BillDatabaseHelper.title, bill.getTitle());
         values.put(BillDatabaseHelper.date, bill.getDate());
@@ -104,7 +141,20 @@ public class EntryHelpter {
                 new String[]{bill.getAddTime() + ""});
 
         closeDb(database);
-        return false;
+    }
+
+    /**
+     * 更新预算
+     */
+    public void updateBudget(Budget budget) {
+        SQLiteDatabase database = openDb();
+        ContentValues values = new ContentValues();
+        values.put(BillDatabaseHelper.value, budget.getValue());
+
+        database.update(BillDatabaseHelper.budget, values, BillDatabaseHelper.yearMonth + " = ?",
+                new String[]{budget.getYearMonth() + ""});
+
+        closeDb(database);
     }
 
     /**
