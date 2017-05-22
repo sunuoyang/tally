@@ -12,14 +12,17 @@ import com.mnnyang.tallybook.utils.ToastUtils;
 
 public class app extends Application {
     public static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        Cache.init();
         initUtils();
     }
 
     private void initUtils() {
+
         ScreenUtils.init(this);
         ToastUtils.init(this);
     }

@@ -22,5 +22,6 @@
 
 
     <color name="color_edit_text_bg">@color/colorPrimary</color>
-    <color name="black_33">#33000000</color>
+    <color name="black_33">#18000000</color>
+    <color name="black">#000000</color>
 </resources>

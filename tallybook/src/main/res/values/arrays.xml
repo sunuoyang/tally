@@ -39,36 +39,36 @@
     </string-array>
 
     <!--支出总的类型-->
-    <array name="minor_type">
-        <item>自定义</item>
-        <item>购物</item>
-        <item>餐饮</item>
-        <item>娱乐</item>
-        <item>出行</item>
-        <item>烟酒</item>
-        <item>零食</item>
-        <item>借出</item>
-        <item>住房</item>
-        <item>旅游</item>
-        <item>通讯</item>
-        <item>医疗</item>
-        <item>美容</item>
-        <item>日用品</item>
-        <item>学习</item>
-        <item>人情</item>
-        <item>还债</item>
-        <item>数码</item>
-        <item>家居</item>
+    <array name="minor_type_expend">
+        <item>@string/custom</item>
+        <item>@string/shopping</item>
+        <item>@string/dining</item>
+        <item>@string/recreation</item>
+        <item>@string/trip</item>
+        <item>@string/tob_and_wine</item>
+        <item>@string/snakes</item>
+        <item>@string/lend</item>
+        <item>@string/housing</item>
+        <item>@string/travel</item>
+        <item>@string/communication</item>
+        <item>@string/medical</item>
+        <item>@string/beautify</item>
+        <item>@string/daily</item>
+        <item>@string/study</item>
+        <item>@string/favour</item>
+        <item>@string/repay</item>
+        <item>@string/digital</item>
+        <item>@string/home_furnishing</item>
     </array>
 
-    <string-array name="minor_type_drawable_ids">
-        <item>@drawable/ic_custom</item><!--购物-->
-        <item>@drawable/ic_shop</item><!--购物-->
+    <string-array name="minor_type_drawable_ids_expend">
+        <item>@drawable/ic_custom</item>
+        <item>@drawable/ic_shoping</item><!--购物-->
         <item>@drawable/ic_eat</item><!--餐饮-->
         <item>@drawable/ic_game</item><!--娱乐-->
         <item>@drawable/ic_car</item><!--出行-->
         <item>@drawable/ic_tob_wine</item><!--ic_tob_wine-->
-        <item>@drawable/ic_snack</item><!--ic_snack-->
+        <item>@drawable/ic_snacks</item><!--ic_snack-->
         <item>@drawable/ic_lend</item><!--借出-->
         <item>@drawable/ic_housing</item><!--ic_housing-->
         <item>@drawable/ic_travel</item><!--旅游-->
@@ -83,7 +83,7 @@
         <item>@drawable/ic_jiaju</item><!--ic_jiaju-->
     </string-array>
 
-    <integer-array name="minor_type_tint">
+    <integer-array name="minor_type_tint_expend">
         <item>0xFF707070</item>
         <item>0xFFE91E63</item>
         <item>0xFF9C27B0</item>

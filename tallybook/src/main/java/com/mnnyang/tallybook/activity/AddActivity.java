@@ -90,13 +90,13 @@ public class AddActivity extends BaseActivity implements View.OnClickListener, N
     }
 
     private void initViewPager() {
-        String inCome = getString(R.string.income);
+        String income = getString(R.string.income);
         String expend = getString(R.string.expend);
 
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
-        fragmentAdapter.addFragment(new TypeSelectFragment().initType(inCome));
         fragmentAdapter.addFragment(new TypeSelectFragment().initType(expend));
-        fragmentAdapter.setTitles(new String[]{expend, inCome});
+        fragmentAdapter.addFragment(new TypeSelectFragment().initType(income));
+        fragmentAdapter.setTitles(new String[]{expend, income});
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

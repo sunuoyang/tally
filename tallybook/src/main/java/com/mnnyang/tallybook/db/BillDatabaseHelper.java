@@ -3,7 +3,7 @@ package com.mnnyang.tallybook.db;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.mnnyang.tallybook.app.Contents;
+import com.mnnyang.tallybook.app.Contants;
 import com.mnnyang.tallybook.app.app;
 
 /**
@@ -49,7 +49,7 @@ public class BillDatabaseHelper extends SQLiteOpenHelper {
 
 
     public BillDatabaseHelper() {
-        super(app.context, Contents.NAME_DB_ENTRY, null, 1);
+        super(app.context, Contants.NAME_DB_ENTRY, null, 1);
     }
 
     @Override

@@ -5,6 +5,6 @@ package com.mnnyang.tallybook.app;
  * Created by mnnyang on 17-5-16.
  */
 
-public class Contents {
+public class Contants {
     public static final String NAME_DB_ENTRY = "entry";
 }

@@ -1,6 +1,8 @@
 package com.mnnyang.tallybook.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.base.BaseActivity;
+import com.mnnyang.tallybook.adapter.MaterialAdapter;
+import com.mnnyang.tallybook.adapter.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.adapter.TimeLineAdapter;
 import com.mnnyang.tallybook.db.EntryHelpter;
 import com.mnnyang.tallybook.model.Bill;
@@ -45,8 +49,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     RecyclerView recyclerView;
 
     private ArrayList<Bill> billsList = new ArrayList<>();
-    private TimeLineAdapter timeLineAdapter;
+    private RecyclerBaseAdapter itemAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private boolean isTimeLineTheme;
 
     @Override
     protected void initWindow() {
@@ -72,8 +77,56 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initRecyclerView() {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        timeLineAdapter = new TimeLineAdapter(R.layout.item_time_line, billsList);
-        recyclerView.setAdapter(timeLineAdapter);
+
+        selectAdapter();
+    }
+
+    private void selectAdapter() {
+        isTimeLineTheme = getIsTimeLime();
+        if (isTimeLineTheme) {
+            itemAdapter = new TimeLineAdapter(R.layout.item_time_line, billsList);
+            recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.set(0, 0, 0, 0);
+                }
+            });
+
+        } else {
+            itemAdapter = new MaterialAdapter(R.layout.item_material, billsList);
+            recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.set(0, ScreenUtils.dp2px(8), 0, 0);
+                }
+            });
+        }
+        itemAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(itemAdapter);
+    }
+
+    private boolean getIsTimeLime() {
+        String configFileName = getPackageName() + "_" + "preferences";
+        String key = getString(R.string.key_time_line_theme);
+
+        boolean result = getSharedPreferences(configFileName, Context.MODE_PRIVATE)
+                .getBoolean(key, false);
+        System.out.println(configFileName + "   " + result);
+        return result;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applySet();
+    }
+
+
+    private void applySet() {
+        boolean isTimeLimeTheme = getIsTimeLime();
+        if (isTimeLimeTheme != this.isTimeLineTheme) {
+            recreate();
+        }
     }
 
     @Override
@@ -84,35 +137,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (recyclerView.canScrollVertically(1) &&
-                        linearLayoutManager.findLastVisibleItemPosition() == timeLineAdapter.getItemCount() - 1) {
+                /*if (recyclerView.canScrollVertically(1) &&
+                        linearLayoutManager.findLastVisibleItemPosition() == itemAdapter.getItemCount() - 1) {
                     fab.hide();
                 }
                 if (!fab.isShown()) {
                     fab.show();
-                }
+                }*/
             }
         });
     }
 
     @Override
     protected void initData() {
-        ArrayList<Bill> bills = new EntryHelpter().queryAll();
-        billsList.addAll(bills);
-        /*
-        billsList.add(new Bill().setTitle("转角路喝酒"));
-        billsList.add(new Bill().setTitle("买花"));
-        billsList.add(new Bill().setTitle("购物"));
-        billsList.add(new Bill().setTitle("打车"));
-        billsList.add(new Bill().setTitle("到处乱转"));
-        billsList.add(new Bill().setTitle("我曹"));
-        billsList.add(new Bill().setTitle("钱丢了"));
-       billsList.add(new Bill().setTitle("转角路喝酒"));
-        billsList.add(new Bill().setTitle("转角路喝酒"));
-        billsList.add(new Bill().setTitle("转角路喝酒"));
-        billsList.add(new Bill().setTitle("转角路喝酒"));
-        billsList.add(new Bill().setTitle("转角路喝酒"));
-        */
+        loadBillsData();
+    }
+
+    private void loadBillsData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Bill> bills = new EntryHelpter().queryAll();
+                billsList.addAll(bills);
+                itemAdapter.notifyDataSetChanged();
+            }
+        }).start();
     }
 
     @Override
@@ -166,7 +215,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void personalClick() {
-        Intent intent = new Intent(MainActivity.this, LoginActivityDemo.class);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }

@@ -7,14 +7,29 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_time_line_time_item"
+        android:id="@+id/ll_time_line_year_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="@dimen/margin_32dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:visibility="invisible"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_size_12sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="@dimen/margin_32dp"
@@ -46,20 +61,38 @@
             android:layout_height="wrap_content"
             android:text="2017 四月"
             android:textColor="@color/grey"
+            android:textSize="@dimen/text_size_14sp"
             android:textStyle="bold"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_72dp"
-
         android:background="@drawable/ripple_time_line_bg"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="@dimen/margin_32dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:singleLine="true"
+                android:text="12"
+                android:textColor="#bf000000"
+                android:textSize="@dimen/text_size_12sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/margin_32dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_16dp"
             android:gravity="center"
             android:orientation="vertical"
             tools:layout_height="84dp">
@@ -91,70 +124,55 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingLeft="@dimen/margin_8dp">
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_4dp"
-                android:orientation="horizontal">
+                android:layout_weight="3"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_time_line_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/tv_time_line_title"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="monospace"
-                        android:singleLine="true"
-                        android:text="去转角路酒店喝酒!"
-                        android:textColor="#ee000000"
-                        android:textSize="@dimen/text_size_16sp"
-                        android:textStyle="normal"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_day"
-                        android:layout_marginTop="@dimen/margin_1dp"
-                        android:singleLine="true"
-                        android:text="12日"
-                        android:textColor="#bf000000"
-                        android:textSize="@dimen/text_size_12sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="580"
-                        android:textColor="@color/pink"
-                        android:textSize="@dimen/text_size_20sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="元"
-                        android:textSize="@dimen/text_size_14sp"/>
-                </LinearLayout>
+                    android:fontFamily="monospace"
+                    android:singleLine="true"
+                    tools:text="去转角路酒店喝酒!"
+                    android:textColor="#ee000000"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="normal"/>
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="580"
+                    android:textColor="@color/pink"
+                    android:textSize="@dimen/text_size_20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:text="元"
+                    android:textSize="@dimen/text_size_14sp"/>
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>

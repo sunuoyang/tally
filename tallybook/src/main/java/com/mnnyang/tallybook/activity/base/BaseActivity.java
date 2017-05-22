@@ -2,6 +2,8 @@ package com.mnnyang.tallybook.activity.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected String TAG = getClass().getSimpleName();
 
     protected Toolbar toolbar;
+
+    protected Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

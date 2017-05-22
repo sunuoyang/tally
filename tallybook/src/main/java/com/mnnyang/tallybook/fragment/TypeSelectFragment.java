@@ -106,15 +106,15 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
 
     @NonNull
     private ArrayList<MinorType> initExpendTypeData() {
-        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type_income,
-                R.array.minor_type_drawable_ids_income, R.array.minor_type_tint_income);
+        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type_expend,
+                R.array.minor_type_drawable_ids_expend, R.array.minor_type_tint_expend);
         return minorTypes;
     }
 
     @NonNull
     private ArrayList<MinorType> initIncomeTypeData() {
-        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type,
-                R.array.minor_type_drawable_ids, R.array.minor_type_tint);
+        ArrayList<MinorType> minorTypes = fillTypeData(R.array.minor_type_income,
+                R.array.minor_type_drawable_ids_income, R.array.minor_type_tint_income);
         return minorTypes;
     }
 
@@ -223,11 +223,11 @@ public class TypeSelectFragment extends BaseFragment implements View.OnTouchList
         new EditDialogHelper().show(getContext(), getString(R.string.custom), new EditDialogHelper.ButtonListener() {
             @Override
             public void onPositive(View editViewRoot, String content) {
-                if (TextUtils.isEmpty(content)){
-                    ((AddActivity)getActivity()).notice(getString(R.string.no_any_input));
+                if (TextUtils.isEmpty(content)) {
+                    ((AddActivity) getActivity()).notice(getString(R.string.no_any_input));
                     return;
                 }
-                addBillByType( typeName, content);
+                addBillByType(typeName, content);
             }
         });
     }

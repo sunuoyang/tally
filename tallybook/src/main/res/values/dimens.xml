@@ -26,6 +26,7 @@
     20sp Appbar文字
     24sp 大标题
     34sp/45sp/56sp/112sp 超大号文字 -->
+    <dimen name="text_size_10sp">10sp</dimen>
     <dimen name="text_size_12sp">12sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>
@@ -33,7 +34,8 @@
     <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_32sp">32sp</dimen>
     <dimen name="text_size_45sp">45sp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="time_line_width">2dp</dimen>
+    <dimen name="time_line_width">1dp</dimen>
 
 </resources>

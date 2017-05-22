@@ -1,1 +1,1 @@
-include ':app', ':tallybook'
+include ':tallybook'
