@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mnnyang.tallybook.R;
+import com.mnnyang.tallybook.adapter.base.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.app.Cache;
 import com.mnnyang.tallybook.app.app;
 import com.mnnyang.tallybook.model.Bill;
@@ -45,6 +46,27 @@ public class TimeLineAdapter extends RecyclerBaseAdapter<Bill> {
         setYearMonth(holder, position, bill);
     }
 
+    @Override
+    protected void setItemEvent(final ViewHolder holder) {
+        holder.getView(R.id.ll_item_root).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(v, holder);
+                }
+            }
+        });
+        holder.getView(R.id.ll_item_root).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemLongClick(v, holder);
+                }
+                return true;
+            }
+        });
+    }
+
     private void setMoney(Bill bill, TextView tvMoney) {
         tvMoney.setTextColor(bill.getMainType().equals(app.context.getString(R.string.income)) ?
                 app.context.getResources().getColor(R.color.colorPrimary) :
@@ -74,7 +96,7 @@ public class TimeLineAdapter extends RecyclerBaseAdapter<Bill> {
 
     private void setYearMonth(TextView textView, String year, String month) {
         int monthInt = Integer.parseInt(month);
-        if (monthInt<1||monthInt>12){
+        if (monthInt < 1 || monthInt > 12) {
             throw new RuntimeException("adapter setYearMonth month error");
         }
         textView.setText(year + "  " + Cache.monthHan[monthInt]);

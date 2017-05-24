@@ -66,6 +66,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_item_root"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_72dp"
         android:background="@drawable/ripple_time_line_bg"

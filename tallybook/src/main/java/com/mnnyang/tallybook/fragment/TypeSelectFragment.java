@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.AddActivity;
-import com.mnnyang.tallybook.adapter.RecyclerBaseAdapter;
+import com.mnnyang.tallybook.adapter.base.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.adapter.TypeAdapter;
 import com.mnnyang.tallybook.app.app;
 import com.mnnyang.tallybook.db.EntryHelpter;

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mnnyang.tallybook.R;
+import com.mnnyang.tallybook.adapter.base.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.model.MinorType;
 
 import java.util.List;

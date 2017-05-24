@@ -1,11 +1,15 @@
 package com.mnnyang.tallybook.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,14 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mnnyang.tallybook.AppBarStateChangeListener;
 import com.mnnyang.tallybook.R;
 import com.mnnyang.tallybook.activity.base.BaseActivity;
 import com.mnnyang.tallybook.adapter.MaterialAdapter;
-import com.mnnyang.tallybook.adapter.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.adapter.TimeLineAdapter;
+import com.mnnyang.tallybook.adapter.base.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.db.EntryHelpter;
 import com.mnnyang.tallybook.model.Bill;
 import com.mnnyang.tallybook.utils.ScreenUtils;
+import com.mnnyang.tallybook.utils.SnackbarUtils;
 import com.mnnyang.tallybook.utils.building.BindLayout;
 import com.mnnyang.tallybook.utils.building.BindView;
 
@@ -35,6 +41,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     FloatingActionButton fab;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.appbar_layout)
+    AppBarLayout appBarLayout;
     @BindView(R.id.ctl)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -52,6 +60,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerBaseAdapter itemAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean isTimeLineTheme;
+    private Bill deletebill;
+    private int deleteItem;
 
     @Override
     protected void initWindow() {
@@ -77,6 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initRecyclerView() {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         selectAdapter();
     }
@@ -99,19 +110,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                     outRect.set(0, ScreenUtils.dp2px(8), 0, 0);
                 }
+
             });
         }
+
+        setItemClickListener(itemAdapter);
         itemAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(itemAdapter);
     }
 
+
     private boolean getIsTimeLime() {
-        String configFileName = getPackageName() + "_" + "preferences";
+        String configFileName = getPackageName() + "_preferences";
         String key = getString(R.string.key_time_line_theme);
 
         boolean result = getSharedPreferences(configFileName, Context.MODE_PRIVATE)
                 .getBoolean(key, false);
-        System.out.println(configFileName + "   " + result);
         return result;
     }
 
@@ -133,17 +147,72 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initListener() {
         tvShowBudgetOverspend.setOnClickListener(this);
         fab.setOnClickListener(this);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                /*if (recyclerView.canScrollVertically(1) &&
-                        linearLayoutManager.findLastVisibleItemPosition() == itemAdapter.getItemCount() - 1) {
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    fab.show();
+                } else if (state == State.COLLAPSED) {
                     fab.hide();
                 }
-                if (!fab.isShown()) {
-                    fab.show();
-                }*/
+            }
+        });
+    }
+
+    private void setItemClickListener(RecyclerBaseAdapter adapter) {
+        adapter.setItemClickListener(new RecyclerBaseAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
+                itemClick(holder.getAdapterPosition());
+            }
+
+            @Override
+            public void onItemLongClick(View view, RecyclerBaseAdapter.ViewHolder holder) {
+                itemLongClick(holder.getAdapterPosition());
+            }
+        });
+    }
+
+    private void itemLongClick(final int position) {
+        Bill bill = billsList.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("确定删除吗？");
+        builder.setMessage(bill.getTitle() + "  (" + bill.getMainType() + bill.getMoney() + "元)");
+        builder.setPositiveButton(getString(R.string.affirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                itemDelete(position);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.canccel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void itemClick(int position) {
+        System.out.println(billsList.get(position).getTitle());
+    }
+
+    private void itemDelete(int position) {
+        deleteItem = position;
+        deletebill = billsList.get(position);
+
+        billsList.remove(position);
+        itemAdapter.notifyItemRemoved(position);
+        showUndoSnakebar();
+    }
+
+    private void showUndoSnakebar() {
+        SnackbarUtils.noticeAction(fab, "删除成功!", "撤销", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                billsList.add(deleteItem, deletebill);
+                itemAdapter.notifyItemInserted(deleteItem);
             }
         });
     }

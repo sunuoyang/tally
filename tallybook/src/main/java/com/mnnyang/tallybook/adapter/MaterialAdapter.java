@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.mnnyang.tallybook.R;
+import com.mnnyang.tallybook.adapter.base.RecyclerBaseAdapter;
 import com.mnnyang.tallybook.app.app;
 import com.mnnyang.tallybook.model.Bill;
 
@@ -45,6 +46,8 @@ public class MaterialAdapter extends RecyclerBaseAdapter<Bill> {
 
         setIcon(holder, bill, position);
     }
+
+
 
     private void setIcon(ViewHolder holder, Bill bill, int position) {
         ImageView ivImage = holder.getView(R.id.iv_type_icon);
@@ -188,4 +191,6 @@ public class MaterialAdapter extends RecyclerBaseAdapter<Bill> {
         drawable.setColor(app.context.getResources().getColor(R.color.blue));
 
     }
+
+
 }

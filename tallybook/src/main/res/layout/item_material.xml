@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/margin_72dp"
-    android:background="@drawable/ripple_time_line_bg"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:background="@drawable/ripple_time_line_bg"
     android:paddingLeft="@dimen/margin_16dp"
     android:paddingRight="@dimen/margin_16dp">
 

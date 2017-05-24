@@ -1,4 +1,4 @@
-package com.mnnyang.tallybook.adapter;
+package com.mnnyang.tallybook.adapter.base;
 
 import android.graphics.Bitmap;
 import android.support.annotation.LayoutRes;
